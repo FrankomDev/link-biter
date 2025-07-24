@@ -11,5 +11,5 @@ Usage: <br>
 ``cd link-biter`` <br>
 ``python3 -m venv venv`` <br>
 ``source venv/bin/activate`` <br>
-``pip install fastapi uvicorn`` <br>
+``pip install fastapi uvicorn validators`` <br>
 ``uvicorn main:app`` <br>
