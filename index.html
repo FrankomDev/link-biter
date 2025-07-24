@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkEater</title>
+</head>
+<body style="background-color: darkgoldenrod;">
+    <div style="text-align: center;">
+        <h2>Cut your link here</h2>
+        <input id="url" type="text" placeholder="https://www.example.com" size="25" style="font-size: larger;"> <br>
+        <input id="alias" type="text" placeholder="alias" size="5" style="font-size: larger;"> <br><br>
+        <button id="cut" onclick="cut_btn()" style="font-size: larger;">CUT!</button>
+    </div>
+
+    <script>
+        function cut_btn(){
+            url = document.getElementById('url')
+            alias = document.getElementById('alias')
+            button = document.getElementById('cut')
+
+            //console.log(url.value+alias.value)
+            if (url.value && alias.value){
+                button.disabled = true
+                fetch('/api/cut',{
+                    method: "POST",
+                    body: JSON.stringify({
+                        url: url.value,
+                        alias: alias.value
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                .then((response)=> response.json())
+                .then((json)=>console.log(json))
+                alias.value = ""
+                url.value = ""
+                button.disabled = false
+            }
+
+        }
+    </script>
+</body>
+</html>
