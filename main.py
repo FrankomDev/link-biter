@@ -1,7 +1,15 @@
+# Link Biter
+# For usage read README.md
+#
+# Made by Frankom
+#
+
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pydantic import BaseModel
 import sqlite3
+import re
+import validators
 
 connection = sqlite3.connect('database.db')
 cursor = connection.cursor()
@@ -23,11 +31,19 @@ async def index():
 
 @app.post('/api/cut')
 async def cut(data: Link):
-    connection = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO links VALUES(?,?)", (data.url, data.alias))
-    connection.commit()
-    return {"url: "+data.url, "alias: "+data.alias}
+    if bool(re.match('^[a-zA-Z0-9]*$', data.alias)) and validators.url(data.url):
+        connection = sqlite3.connect('database.db')
+        cursor = connection.cursor()
+        if data.alias == '404' or cursor.execute("SELECT url FROM links WHERE alias = ?", (data.alias,)).fetchone() != None:
+            connection.commit()
+            return {'err':2}
+        else:
+            cursor.execute("INSERT INTO links VALUES(?,?)", (data.url, data.alias))
+            connection.commit()
+        #return {"url: "+data.url, "alias: "+data.alias}
+        return {'err':0}
+    else:
+        return {'err':1}
 
 @app.get('/404')
 async def error():

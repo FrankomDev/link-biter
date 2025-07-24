@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkEater</title>
+    <title>LinkBiter</title>
 </head>
 <body style="background-color: darkgoldenrod;">
     <div style="text-align: center;">
         <h2>Cut your link here</h2>
-        <input id="url" type="text" placeholder="https://www.example.com" size="25" style="font-size: larger;"> <br>
+        <input id="url" type="url" placeholder="https://www.example.com" size="25" style="font-size: larger;"> <br>
         <input id="alias" type="text" placeholder="alias" size="5" style="font-size: larger;"> <br><br>
         <button id="cut" onclick="cut_btn()" style="font-size: larger;">CUT!</button>
     </div>
@@ -19,7 +19,6 @@
             alias = document.getElementById('alias')
             button = document.getElementById('cut')
 
-            //console.log(url.value+alias.value)
             if (url.value && alias.value){
                 button.disabled = true
                 fetch('/api/cut',{
@@ -33,12 +32,26 @@
                     }
                 })
                 .then((response)=> response.json())
-                .then((json)=>console.log(json))
-                alias.value = ""
-                url.value = ""
-                button.disabled = false
+                .then((json)=>{
+                    if (json.err == 0){
+                        window.alert('Success! /'+alias.value)
+                        alias.value = ""
+                        url.value = ""
+                        button.disabled = false
+                    }else if(json.err == 1){
+                        window.alert('Invalid URL or alias! Please try again.')
+                        button.disabled = false
+                    }else if(json.err == 2){
+                        window.alert('Alias is taken! Please use another one.')
+                        alias.value = ""
+                        button.disabled = false
+                    }else{
+                        window.alert('Undefinied error.')
+                    }
+                })
+            }else{
+                window.alert('Fill out the entries!')
             }
-
         }
     </script>
 </body>

@@ -1,5 +1,11 @@
-# Link Eater
+# Link Biter
 
-## Simple AF link shortener made with Python + FastAPI
+### Simple AF link shortener made with Python + FastAPI
 
-### Work in progress! (around 80% done)
+Usage:
+``git clone https://github.com/FrankomDev/link-biter.git`` <br>
+``cd link-biter`` <br>
+``python3 -m venv venv`` <br>
+``source venv/bin/activate`` <br>
+``pip install fastapi uvicorn`` <br>
+``uvicorn main:app`` <br>
