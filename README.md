@@ -2,7 +2,11 @@
 
 ### Simple AF link shortener made with Python + FastAPI
 
-Usage:
+It stores data in SQLite Database! <br>
+It doesn't look fancy, but feel free to edit index.html!
+![screenshot](https://github.com/FrankomDev/link-biter/blob/main/screenshot.png)
+
+Usage: <br>
 ``git clone https://github.com/FrankomDev/link-biter.git`` <br>
 ``cd link-biter`` <br>
 ``python3 -m venv venv`` <br>
